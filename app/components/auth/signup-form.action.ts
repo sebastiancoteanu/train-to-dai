@@ -1,0 +1,61 @@
+"use server";
+
+import { z } from "zod";
+import { FormState } from "./signup-form.types";
+import argon2 from "argon2";
+import prisma from "@/app/lib/prisma";
+import { redirect } from "next/navigation";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+
+const signupSchema = z.object({
+  email: z.string().email("Invalid email"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .max(64, "Password must not exceed 64 characters")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[0-9]/, "Password must contain at least one digit")
+    .regex(
+      /[!@#$%^&*]/,
+      "Password must contain at least one special character (!@#$%^&*)"
+    ),
+});
+
+export async function signup(_state: FormState, formData: FormData) {
+  const validatedFields = signupSchema.safeParse(Object.fromEntries(formData));
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const { email, password } = validatedFields.data;
+
+  const hashedPassword = await argon2.hash(password);
+
+  try {
+    await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+      },
+    });
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
+        return {
+          email: ["This email is already registered"],
+        };
+      }
+    }
+    return {
+      errors: {
+        general: "Unknown error occured!",
+      },
+    };
+  }
+
+  redirect("/");
+}
