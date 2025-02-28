@@ -6,6 +6,7 @@ import argon2 from "argon2";
 import prisma from "@/app/lib/prisma";
 import { redirect } from "next/navigation";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { createSession } from "@/app/lib/session";
 
 const signupSchema = z.object({
   email: z.string().email("Invalid email"),
@@ -35,13 +36,17 @@ export async function signup(_state: FormState, formData: FormData) {
 
   const hashedPassword = await argon2.hash(password);
 
+  let user;
+
   try {
-    await prisma.user.create({
+    user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
       },
     });
+
+    await createSession(user.id);
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
@@ -57,5 +62,5 @@ export async function signup(_state: FormState, formData: FormData) {
     };
   }
 
-  redirect("/");
+  redirect("/dashboard");
 }

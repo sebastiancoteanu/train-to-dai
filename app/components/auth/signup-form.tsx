@@ -10,8 +10,6 @@ export function SignupForm() {
     undefined
   );
 
-  console.log(state?.errors);
-
   return (
     <form action={formAction}>
       <section>
