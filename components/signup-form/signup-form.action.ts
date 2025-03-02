@@ -1,12 +1,12 @@
 "use server";
 
 import { z } from "zod";
-import { FormState } from "./signup-form.types";
 import argon2 from "argon2";
-import prisma from "@/app/lib/prisma";
+import prisma from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { createSession } from "@/app/lib/session";
+import { createSession } from "@/lib/auth/session";
+import { FormState } from "../auth-form/auth-form.types";
 
 const signupSchema = z.object({
   email: z.string().email("Invalid email"),
@@ -47,17 +47,20 @@ export async function signup(_state: FormState, formData: FormData) {
     });
 
     await createSession(user.id);
-  } catch (e) {
-    if (e instanceof PrismaClientKnownRequestError) {
-      if (e.code === "P2002") {
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
         return {
-          email: ["This email is already registered"],
+          errors: {
+            email: ["This email is already registered"]
+          },
         };
       }
     }
+
     return {
       errors: {
-        general: "Unknown error occured!",
+        general: ["Failed to create account, please try again."],
       },
     };
   }
