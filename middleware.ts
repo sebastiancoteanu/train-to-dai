@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "./lib/auth/session";
+import { hasNextAuthSessionCookie } from "./lib/auth/nextAuth";
 
 const protectedRoutes = [
   "/dashboard",
@@ -17,14 +18,18 @@ export default async function middleware(req: NextRequest) {
   const isProtectedRoute = protectedRoutes.includes(path);
   const isPublicRoute = publicRoutes.includes(path);
 
-  const session = await getSession();
-  const userId = session?.payload.sub;
+  const session = await getSession(req.cookies);
+  const customUserId = session?.payload.sub;
 
-  if (isProtectedRoute && !userId) {
+  const hasNextAuthSession = hasNextAuthSessionCookie(req);
+
+  const isAuthenticated = !!customUserId || hasNextAuthSession;
+
+  if (isProtectedRoute && !isAuthenticated) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
-  if (isPublicRoute && userId && path !== "/dashboard") {
+  if (isPublicRoute && isAuthenticated && path !== "/dashboard") {
     return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
   }
 

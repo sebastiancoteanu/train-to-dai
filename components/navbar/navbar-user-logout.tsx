@@ -1,3 +1,5 @@
+"use client";
+
 import { LogOut } from "lucide-react";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { useTransition } from "react";

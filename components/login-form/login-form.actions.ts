@@ -25,7 +25,7 @@ export async function login(_state: FormState, formData: FormData) {
   const { email, password } = validatedFields.data;
 
   try {
-    const user = await prisma.user.findFirstOrThrow({
+    const user = await prisma.user.findUniqueOrThrow({
       where: {
         email,
       },

@@ -1,6 +1,8 @@
 "use server";
 
 import { jwtVerify, SignJWT } from "jose";
+import { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 
 const secretKey = process.env.AUTH_SECRET;
@@ -13,7 +15,7 @@ const encodedKey = Buffer.from(secretKey, "base64");
 const alg = "HS256";
 const cookieKey = "session";
 
-export async function createSession(userId: number) {
+export async function createSession(userId: string) {
   const jwt = await new SignJWT({})
     .setProtectedHeader({ alg })
     .setIssuedAt()
@@ -30,16 +32,17 @@ export async function createSession(userId: number) {
   });
 }
 
-export async function getSession() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(cookieKey)?.value;
+export async function getSession(
+  cookies: RequestCookies | ReadonlyRequestCookies
+) {
+  const token = cookies.get(cookieKey)?.value;
 
   if (!token) {
     return null;
   }
 
   try {
-    const payload = jwtVerify(token, encodedKey, { algorithms: [alg] });
+    const payload = await jwtVerify(token, encodedKey, { algorithms: [alg] });
 
     return payload;
   } catch (e) {

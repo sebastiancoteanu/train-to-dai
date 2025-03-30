@@ -6,11 +6,12 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { User } from "lucide-react";
 import { NavigationMenuItem, NavigationMenuList } from "../ui/navigation-menu";
 import Link from "next/link";
 import NavbarUserLogout from "./navbar-user-logout";
+import NavbarUserAvatar from "./navbar-user-avatar";
+import { Suspense } from "react";
 
 export default function NavbarUser() {
   return (
@@ -19,10 +20,9 @@ export default function NavbarUser() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
-              <Avatar className="w-8 h-8">
-                {/* <AvatarImage src="/user-avatar.png" alt="User" /> */}
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
+              <Suspense fallback={<div>Loading profile...</div>}>
+                <NavbarUserAvatar />
+              </Suspense>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
