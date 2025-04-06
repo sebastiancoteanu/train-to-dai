@@ -17,8 +17,8 @@ const Navbar = () => {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className="p-0">
-            <Link href="/dashboard">
-              <Image src="/logo.svg" alt="Home" width={36} height={36} />
+            <Link href="/dashboard" className="w-8 h-8">
+              <Image src="/logo.svg" alt="Home" width={150} height={150} />
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

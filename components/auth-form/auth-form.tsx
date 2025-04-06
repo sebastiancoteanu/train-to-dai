@@ -1,9 +1,9 @@
 import { Root, Field, Label, Control, Submit } from "@radix-ui/react-form";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { FormState } from "./auth-form.types";
 import Form from "next/form";
-import { Button } from "../ui/button";
+import { socialProviders } from "./auth-form.const";
+import { SocialProvider } from "../social-provider/social-provider";
 
 interface Props {
   formAction: (payload: FormData) => void;
@@ -85,9 +85,21 @@ export default function AuthForm({
           </section>
         </Form>
       </Root>
-      <Button onClick={() => signIn("google")}>Continue with Google</Button>
-      <Button onClick={() => signIn("facebook")}>Continue with Facebook</Button>
-      <Button onClick={() => signIn("apple")}>Continue with Apple</Button>
+      <p className="text-center text-sm text-muted-foreground mt-6 mb-2">
+        Or continue with
+      </p>
+      <div className="w-sm mx-auto flex flex-col gap-3 mt-4">
+        {socialProviders.map((provider) => (
+          <SocialProvider
+            key={provider.id}
+            icon={provider.icon}
+            id={provider.id}
+            label={provider.label}
+            iconHeight={provider.iconHeight}
+            iconWidth={provider.iconWidth}
+          />
+        ))}
+      </div>
     </div>
   );
 }

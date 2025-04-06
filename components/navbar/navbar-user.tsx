@@ -33,7 +33,6 @@ export default function NavbarUser() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-
             <NavbarUserLogout />
           </DropdownMenuContent>
         </DropdownMenu>
