@@ -6,7 +6,7 @@ import { userSchema } from "@/schemas/user.schema";
 import { SafeUser } from "@/types/user";
 
 export default async function updateUserAction(
-  user: Omit<SafeUser, "createdAt" | "updatedAt">
+  user: Omit<SafeUser, "createdAt" | "updatedAt" | "image">
 ) {
   const { id, ...dataToValidate } = user;
 

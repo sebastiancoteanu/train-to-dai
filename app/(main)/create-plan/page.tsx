@@ -1,3 +1,5 @@
+import { CreatePlanWizard } from "@/components/create-plan-wizard/create-plan-wizard";
+
 export default function CreatePlanPage() {
-  return <h1>Create plan page</h1>;
+  return <CreatePlanWizard />;
 }

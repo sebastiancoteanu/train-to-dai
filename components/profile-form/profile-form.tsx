@@ -50,7 +50,6 @@ export function ProfileForm({ user }: Props) {
   });
 
   async function onSubmit(values: z.infer<typeof userSchema>) {
-    console.log(values);
     await updateUserAction({
       id: user.id,
       username: values.username,
