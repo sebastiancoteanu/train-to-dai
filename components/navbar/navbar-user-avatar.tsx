@@ -16,8 +16,6 @@ export default async function NavbarUserAvatar() {
     : "/user-avatar.png";
   const avatarAlt = user.username ?? user.email;
 
-  console.log(user);
-
   return (
     <Avatar className="w-8 h-8">
       <AvatarImage src={avatarSource} alt={avatarAlt} width={96} height={96} />

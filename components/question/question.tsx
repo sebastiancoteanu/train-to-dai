@@ -9,66 +9,159 @@ import {
   SelectValue,
 } from "../ui/select";
 import { SliderWithMarks } from "../ui/slider-with-marks";
+import { Control } from "react-hook-form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { NumericField } from "../ui/numeric-field";
+import { Switch } from "../ui/switch";
 
 interface Props {
   question: TQuestion;
+  control: Control;
 }
 
-export const Question: FC<Props> = ({ question }) => {
+export const Question: FC<Props> = ({ question, control }) => {
   return (
-    <div key={question.id}>
-      <label htmlFor={question.key}>{question.question}</label>
-      {question.type === "text" && <input type="text" id={question.key} />}
+    <>
+      {question.type === "text" && (
+        <FormField
+          control={control}
+          name={question.key}
+          render={({ field }) => (
+            <FormItem className="flex flex-col gap-2">
+              <FormLabel className="text-sm font-medium text-gray-700">
+                {question.question}
+              </FormLabel>
+              <FormControl>
+                <Input placeholder="example-username" {...field} />
+              </FormControl>
+              <FormMessage className="text-sm text-red-500 mt-1" />
+            </FormItem>
+          )}
+        />
+      )}
       {question.type === "number" && (
-        <input
-          type="number"
-          id={question.key}
-          min={question.min}
-          max={question.max}
+        <FormField
+          control={control}
+          name={question.key}
+          render={({ field }) => (
+            <FormItem className="flex flex-col gap-2">
+              <FormLabel className="text-sm font-medium text-gray-700">
+                {question.question}
+              </FormLabel>
+              <FormControl>
+                <NumericField {...field} onChange={field.onChange} />
+              </FormControl>
+              <FormMessage className="text-sm text-red-500 mt-1" />
+            </FormItem>
+          )}
         />
       )}
       {question.type === "select" && (
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a fruit" />
-          </SelectTrigger>
-          <SelectContent>
-            {question.options?.map((option) => (
-              <SelectItem key={option} value={option}>
-                {option}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <FormField
+          control={control}
+          name={question.key}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-sm font-medium text-gray-700">
+                {question.question}
+              </FormLabel>
+
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select option" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {question.options?.map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            </FormItem>
+          )}
+        />
       )}
       {question.type === "multiselect" && (
-        <MultiSelect
-          options={
-            question.options?.map((option) => ({
-              label: option,
-              value: option,
-            })) ?? []
-          }
-          placeholder="Select options"
+        <FormField
+          control={control}
+          name={question.key}
+          render={({ field }) => (
+            <FormItem className="flex flex-col gap-2">
+              <FormLabel className="text-sm font-medium text-gray-700">
+                {question.question}
+              </FormLabel>
+              <FormControl>
+                <MultiSelect
+                  options={
+                    question.options?.map((option) => ({
+                      label: option,
+                      value: option,
+                    })) ?? []
+                  }
+                  selectedValues={field.value}
+                  onChange={field.onChange}
+                  placeholder="Select options"
+                />
+              </FormControl>
+              <FormMessage className="text-sm text-red-500 mt-1" />
+            </FormItem>
+          )}
         />
       )}
       {question.type === "yesNo" && (
-        <div>
-          <label>
-            <input type="radio" name={question.key} value="yes" /> Yes
-          </label>
-          <label>
-            <input type="radio" name={question.key} value="no" /> No
-          </label>
-        </div>
-      )}
-      {question.type === "slider" && (
-        <SliderWithMarks
-          min={question.min}
-          max={question.max}
-          step={1}
+        <FormField
+          control={control}
+          name={question.key}
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center justify-between p-3 shadow-sm">
+              <div className="space-y-0.5">
+                <FormLabel>{question.question}</FormLabel>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
         />
       )}
-    </div>
+      {question.type === "slider" && (
+        <FormField
+          control={control}
+          name={question.key}
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center justify-between p-3 shadow-sm">
+              <div className="space-y-0.5">
+                <FormLabel>{question.question}</FormLabel>
+              </div>
+              <FormControl>
+                <SliderWithMarks
+                  min={question.min}
+                  max={question.max}
+                  step={1}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      )}
+    </>
   );
 };

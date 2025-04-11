@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { QuestionGroup as QuestionGroupType } from "./question-renderer.types";
+import { QuestionGroup as TQuestionGroup } from "./question-renderer.types";
 import { QuestionGroup } from "../question-group/question-group";
 
-const questionGroup: QuestionGroupType = {
+const questionGroup: TQuestionGroup = {
   groupTitle: "Baseline Assessment",
   intro:
     "Before we begin planning your training, I need to understand your current habits and status.",
@@ -60,7 +60,7 @@ const questionGroup: QuestionGroupType = {
 };
 
 export const QuestionRenderer = () => {
-  const [questionGroups, setQuestionGroups] = useState<QuestionGroupType[]>([
+  const [questionGroups, setQuestionGroups] = useState<TQuestionGroup[]>([
     questionGroup,
   ]);
 
