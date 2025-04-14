@@ -66,7 +66,7 @@ export const MultiSelect: FC<Props> = ({
         <Button
           variant="outline"
           role="combobox"
-          className={cn("w-[200px] justify-between", className)}
+          className={cn("justify-between", className)}
           disabled={disabled}
         >
           <span className="truncate max-w-[160px] overflow-hidden text-ellipsis">

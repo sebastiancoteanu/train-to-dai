@@ -1,4 +1,4 @@
-import getCurrentUser from "@/lib/user/get-current-user.action";
+import getCurrentUser from "@/lib/api/user/get-current-user.action";
 import { ProfileForm } from "../profile-form/profile-form";
 
 export default async function UserProfile() {

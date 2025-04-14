@@ -38,7 +38,7 @@ export const Question: FC<Props> = ({ question, control }) => {
               <FormLabel className="text-sm font-medium text-gray-700">
                 {question.question}
               </FormLabel>
-              <FormControl>
+              <FormControl className="w-[400px]">
                 <Input placeholder="example-username" {...field} />
               </FormControl>
               <FormMessage className="text-sm text-red-500 mt-1" />
@@ -55,7 +55,7 @@ export const Question: FC<Props> = ({ question, control }) => {
               <FormLabel className="text-sm font-medium text-gray-700">
                 {question.question}
               </FormLabel>
-              <FormControl>
+              <FormControl className="w-[400px]">
                 <NumericField {...field} onChange={field.onChange} />
               </FormControl>
               <FormMessage className="text-sm text-red-500 mt-1" />
@@ -68,7 +68,7 @@ export const Question: FC<Props> = ({ question, control }) => {
           control={control}
           name={question.key}
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-col gap-2">
               <FormLabel className="text-sm font-medium text-gray-700">
                 {question.question}
               </FormLabel>
@@ -78,7 +78,7 @@ export const Question: FC<Props> = ({ question, control }) => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-[400px]">
                     <SelectValue placeholder="Select option" />
                   </SelectTrigger>
                   <SelectContent>
@@ -103,7 +103,7 @@ export const Question: FC<Props> = ({ question, control }) => {
               <FormLabel className="text-sm font-medium text-gray-700">
                 {question.question}
               </FormLabel>
-              <FormControl>
+              <FormControl className="w-[400px]">
                 <MultiSelect
                   options={
                     question.options?.map((option) => ({
@@ -126,7 +126,7 @@ export const Question: FC<Props> = ({ question, control }) => {
           control={control}
           name={question.key}
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between p-3 shadow-sm">
+            <FormItem className="flex flex-row items-center gap-2">
               <div className="space-y-0.5">
                 <FormLabel>{question.question}</FormLabel>
               </div>
@@ -145,11 +145,11 @@ export const Question: FC<Props> = ({ question, control }) => {
           control={control}
           name={question.key}
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between p-3 shadow-sm">
+            <FormItem className="flex flex-col gap-2">
               <div className="space-y-0.5">
                 <FormLabel>{question.question}</FormLabel>
               </div>
-              <FormControl>
+              <FormControl className="w-[400px]">
                 <SliderWithMarks
                   min={question.min}
                   max={question.max}

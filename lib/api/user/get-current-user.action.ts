@@ -1,9 +1,9 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { getSession } from "../auth/session";
 import getUserByIdAction from "./get-user-by-id.action";
-import { getNextAuthUser } from "../auth/nextAuth";
+import { getSession } from "@/lib/auth/session";
+import { getNextAuthUser } from "@/lib/auth/nextAuth";
 
 export default async function getCurrentUser() {
   const cookieStore = await cookies();

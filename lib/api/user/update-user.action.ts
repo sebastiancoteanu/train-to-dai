@@ -1,9 +1,9 @@
 "use server";
 
-import prisma from "../db/prisma";
 import { revalidatePath } from "next/cache";
 import { userSchema } from "@/schemas/user.schema";
 import { SafeUser } from "@/types/user";
+import prisma from "@/lib/db/prisma";
 
 export default async function updateUserAction(
   user: Omit<SafeUser, "createdAt" | "updatedAt" | "image">

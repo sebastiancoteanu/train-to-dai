@@ -28,9 +28,9 @@ import {
   SelectValue,
 } from "../ui/select";
 import { userSchema } from "@/schemas/user.schema";
-import updateUserAction from "@/lib/user/update-user.action";
 import { SafeUser } from "@/types/user";
 import { NumericField } from "../ui/numeric-field";
+import updateUserAction from "@/lib/api/user/update-user.action";
 
 interface Props {
   user: SafeUser;

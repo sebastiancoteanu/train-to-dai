@@ -1,8 +1,8 @@
 "use server";
 
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import prisma from "../db/prisma";
 import { SafeUser } from "@/types/user";
+import prisma from "@/lib/db/prisma";
 
 export default async function getUserByIdAction(
   userId: string

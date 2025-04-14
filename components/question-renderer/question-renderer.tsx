@@ -3,72 +3,49 @@
 import { useState } from "react";
 import { QuestionGroup as TQuestionGroup } from "./question-renderer.types";
 import { QuestionGroup } from "../question-group/question-group";
-
-const questionGroup: TQuestionGroup = {
-  groupTitle: "Baseline Assessment",
-  intro:
-    "Before we begin planning your training, I need to understand your current habits and status.",
-  questions: [
-    {
-      id: "1",
-      type: "text",
-      key: "fullName",
-      question: "What is your full name?",
-    },
-    {
-      id: "2",
-      type: "number",
-      key: "age",
-      question: "How old are you?",
-      min: 12,
-      max: 100,
-    },
-    {
-      id: "3",
-      type: "select",
-      key: "activityLevel",
-      question: "How would you describe your current activity level?",
-      options: [
-        "Sedentary",
-        "Lightly active",
-        "Moderately active",
-        "Very active",
-      ],
-    },
-    {
-      id: "4",
-      type: "multiselect",
-      key: "mealPreferences",
-      question: "Which meals do you usually eat during the day?",
-      options: ["Breakfast", "Lunch", "Dinner", "Snacks"],
-    },
-    {
-      id: "5",
-      type: "yesNo",
-      key: "smoker",
-      question: "Do you smoke?",
-    },
-    {
-      id: "6",
-      type: "slider",
-      key: "stressLevel",
-      question: "How would you rate your current stress level?",
-      min: 1,
-      max: 10,
-    },
-  ],
-};
+import { Stepper } from "../ui/stepper";
+import {
+  nutritionGroup,
+  questionGroup,
+  routineGroup,
+} from "./question-renderer.mocks";
 
 export const QuestionRenderer = () => {
   const [questionGroups, setQuestionGroups] = useState<TQuestionGroup[]>([
     questionGroup,
   ]);
 
-  const activeQuestionGroup = questionGroups[0];
+  const [activeGroupId, setActiveGroupId] = useState(
+    questionGroups[0].groupTitle
+  );
+
+  const activeIdx = questionGroups.findIndex(
+    (group) => group.groupTitle === activeGroupId
+  );
+
+  if (activeIdx < 0) {
+    return <div>Something went wrong ...</div>;
+  }
+
+  const stepMetadata = questionGroups.map((group, index) => ({
+    id: group.groupTitle,
+    label: group.groupTitle,
+    completed: false,
+    disabled: index > activeIdx,
+  }));
+
+  const onStepChange = (id: string) => {
+    setActiveGroupId(id);
+  };
 
   return (
-    <section>
-      <QuestionGroup questionGroup={activeQuestionGroup} />
-    </section>
+    <Stepper
+      activeStepId={activeGroupId}
+      stepMetadata={stepMetadata}
+      onStepChange={onStepChange}
+      className="flex flex-col gap-6"
+    >
+      <QuestionGroup questionGroup={questionGroups[activeIdx]} />
+    </Stepper>
   );
 };

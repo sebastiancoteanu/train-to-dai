@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Slider } from "./slider";
+import { cn } from "@/lib/utils";
 
 interface SliderWithMarksProps {
   value?: number;
@@ -10,6 +11,7 @@ interface SliderWithMarksProps {
   max?: number;
   step?: number;
   onChange?: (value: number) => void;
+  className?: string;
 }
 
 export const SliderWithMarks: React.FC<SliderWithMarksProps> = ({
@@ -19,6 +21,7 @@ export const SliderWithMarks: React.FC<SliderWithMarksProps> = ({
   max = 10,
   step = 1,
   onChange,
+  className,
 }) => {
   const [internalValue, setInternalValue] = useState(defaultValue);
   const currentValue = value ?? internalValue;
@@ -31,7 +34,7 @@ export const SliderWithMarks: React.FC<SliderWithMarksProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 w-[200px]">
+    <div className={cn(className, "flex flex-col gap-2 pt-1.5")}>
       <Slider
         value={[currentValue]}
         min={min}
