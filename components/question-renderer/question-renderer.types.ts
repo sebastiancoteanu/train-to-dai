@@ -17,6 +17,7 @@ export interface Question {
 }
 
 export interface QuestionGroup {
+  id: string;
   groupTitle: string;
   intro?: string;
   questions: Question[];

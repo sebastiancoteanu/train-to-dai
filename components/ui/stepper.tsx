@@ -51,7 +51,7 @@ export const Stepper: FC<Props> = ({
               >
                 {step.completed ? <CheckIcon className="w-4 h-4" /> : index + 1}
               </div>
-              <span className="mt-1 text-sm text-center">{step.label}</span>
+              <span className="text-sm text-center">{step.label}</span>
             </Button>
           </div>
         ))}

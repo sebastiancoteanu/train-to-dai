@@ -1,6 +1,7 @@
 import { QuestionGroup } from "./question-renderer.types";
 
 export const questionGroup: QuestionGroup = {
+  id: "baseline-assessment",
   groupTitle: "Baseline Assessment",
   intro:
     "Before we begin planning your training, I need to understand your current habits and status.",
@@ -51,49 +52,6 @@ export const questionGroup: QuestionGroup = {
       question: "How would you rate your current stress level?",
       min: 1,
       max: 10,
-    },
-  ],
-};
-
-export const routineGroup: QuestionGroup = {
-  groupTitle: "Training Routine",
-  intro: "Tell me about your current running routine.",
-  questions: [
-    {
-      id: "7",
-      type: "number",
-      key: "runsPerWeek",
-      question: "How many times do you run per week?",
-      min: 0,
-      max: 14,
-    },
-    {
-      id: "8",
-      type: "number",
-      key: "averageDistance",
-      question: "What is your average distance per run (in km)?",
-      min: 0,
-      max: 100,
-    },
-  ],
-};
-
-export const nutritionGroup: QuestionGroup = {
-  groupTitle: "Nutrition Habits",
-  intro: "Now let’s explore your eating habits.",
-  questions: [
-    {
-      id: "9",
-      type: "select",
-      key: "dietType",
-      question: "What type of diet do you follow?",
-      options: ["None", "Vegetarian", "Vegan", "Keto", "Paleo"],
-    },
-    {
-      id: "10",
-      type: "yesNo",
-      key: "supplements",
-      question: "Do you take any supplements?",
     },
   ],
 };

@@ -4,11 +4,7 @@ import { useState } from "react";
 import { QuestionGroup as TQuestionGroup } from "./question-renderer.types";
 import { QuestionGroup } from "../question-group/question-group";
 import { Stepper } from "../ui/stepper";
-import {
-  nutritionGroup,
-  questionGroup,
-  routineGroup,
-} from "./question-renderer.mocks";
+import { questionGroup } from "./question-renderer.mocks";
 
 export const QuestionRenderer = () => {
   const [questionGroups, setQuestionGroups] = useState<TQuestionGroup[]>([
